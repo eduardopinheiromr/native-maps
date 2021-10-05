@@ -109,7 +109,7 @@ export default function MapScreen({
               coordinate={place.coordinates}
             >
               <Callout tooltip onPress={() => handleSelectPlace(place)}>
-                <View style={{ width: 320, padding: 10 }}>
+                <View style={{ width: 320, padding: 10, borderRadius: 10 }}>
                   <HouseCard houseData={place} />
                 </View>
               </Callout>

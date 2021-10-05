@@ -16,7 +16,7 @@ import { ColorSchemeName, Pressable } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import ModalScreen from "../screens/ModalScreen";
+import ProfileScreen from "../screens/ProfileScreen";
 import MapScreen from "../screens/MapScreen";
 import SearchScreen from "../screens/SearchScreen";
 import MyVisitsScreen from "../screens/MyVisitsScreen";
@@ -66,10 +66,17 @@ function RootNavigator() {
       <Stack.Screen
         name="SingleRealEstateScreen"
         component={SingleRealEstateScreen}
-        options={{ headerShown: false }}
+        // options={({ route }) => ({
+        //   title: route.params.title,
+        // })}
+        options={{ title: "Voltar" }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen
+          name="ProfileScreen"
+          component={ProfileScreen}
+          options={{ title: "Meu perfil" }}
+        />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -99,13 +106,13 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate("Modal")}
+              onPress={() => navigation.navigate("ProfileScreen")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
             >
               <FontAwesome
-                name="info-circle"
+                name="user"
                 size={25}
                 color={Colors[colorScheme].text}
                 style={{ marginRight: 15 }}

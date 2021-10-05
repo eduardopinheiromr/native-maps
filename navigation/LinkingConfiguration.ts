@@ -34,7 +34,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       },
       LoginScreen: "login",
       SingleRealEstateScreen: "single-real-state",
-      Modal: "modal",
+      ProfileScreen: "profile",
       NotFound: "*",
     },
   },

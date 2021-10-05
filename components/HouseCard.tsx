@@ -11,22 +11,6 @@ type Props = {
   houseData: HouseData;
 };
 
-// export default function HouseCard({ houseData }: Props) {
-//   const { title, image, bedrooms, bathrooms } = houseData;
-
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.layout}>
-//         <Image source={{ uri: image }} style={styles.image} />
-//         <Title style={styles.title}>
-//           {title}, {bedrooms} quarto{hasMoreThanOne(bedrooms)} e {bathrooms}{" "}
-//           banheiro{hasMoreThanOne(bathrooms)}
-//         </Title>
-//       </View>
-//     </View>
-//   );
-// }
-
 export default function HouseCard({ houseData }: Props) {
   const { title, image, bedrooms, bathrooms } = houseData;
 
@@ -68,6 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingBottom: 10,
     backgroundColor: "#fff",
+    borderRadius: 8,
   },
   layout: {
     display: "flex",

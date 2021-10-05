@@ -27,7 +27,7 @@ export type HouseData = {
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   LoginScreen: undefined;
-  Modal: undefined;
+  ProfileScreen: undefined;
   SingleRealEstateScreen: HouseData;
   NotFound: undefined;
 };
