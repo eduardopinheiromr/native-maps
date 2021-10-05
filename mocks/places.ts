@@ -1,0 +1,51 @@
+export const placesMock = [
+  {
+    id: 1,
+    title: "Casa bonitinha",
+    bedrooms: 2,
+    bathrooms: 2,
+    image: "https://picsum.photos/seed/picsum/100/100",
+  },
+  {
+    id: 2,
+    title: "Apartamento bonito demais da conta",
+    bedrooms: 1,
+    bathrooms: 1,
+    image: "https://picsum.photos/seed/picsum/100/100",
+  },
+  {
+    id: 3,
+    title: "Casa apertada claustrofóbica",
+    bedrooms: 0,
+    bathrooms: 0,
+    image: "https://picsum.photos/seed/picsum/100/100",
+  },
+  {
+    id: 4,
+    title: "Casarão pra ostentar",
+    bedrooms: 8,
+    bathrooms: 9,
+    image: "https://picsum.photos/seed/picsum/100/100",
+  },
+  {
+    id: 5,
+    title: "Casa padrão fifa",
+    bedrooms: 4,
+    bathrooms: 5,
+    image: "https://picsum.photos/seed/picsum/100/100",
+  },
+  {
+    id: 6,
+    title: "Kitnet maltrapilha",
+    bedrooms: 1,
+    bathrooms: 1,
+    image: "https://picsum.photos/seed/picsum/100/100",
+  },
+  {
+    id: 7,
+    title: "Flat surfistinho",
+    bedrooms: 2,
+    bathrooms: 3,
+    image: "https://picsum.photos/seed/picsum/100/100",
+  },
+];

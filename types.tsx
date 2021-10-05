@@ -16,6 +16,14 @@ declare global {
   }
 }
 
+export type HouseData = {
+  id: number;
+  title: string;
+  bedrooms: number;
+  bathrooms: number;
+  image: string;
+};
+
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   LoginScreen: undefined;
