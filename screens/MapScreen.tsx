@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import * as Location from "expo-location";
 
-import MapView, { Marker, Polyline } from "react-native-maps";
+import MapView, { Callout, Marker, Polyline } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { RootTabScreenProps } from "../types";
+import { HouseData, RootTabScreenProps } from "../types";
 import { LocationObject } from "expo-location";
+import { placesMock } from "../mocks/places";
+
+import buildingMarker from "../assets/icons/building.png";
+import { hasMoreThanOne } from "../utils/hasMoreThanOne";
+import HouseCard from "../components/HouseCard";
 
 export default function MapScreen({
   navigation,
@@ -23,8 +28,14 @@ export default function MapScreen({
         return;
       }
 
-      let location = await Location.getLastKnownPositionAsync({});
-      setLocation(location);
+      await Location.watchPositionAsync(
+        {
+          accuracy: Location.Accuracy.BestForNavigation,
+          timeInterval: 3000,
+          distanceInterval: 1,
+        },
+        (loc) => setLocation(loc)
+      );
     })();
   }, []);
 
@@ -34,6 +45,10 @@ export default function MapScreen({
   } else if (location) {
     text = JSON.stringify(location);
   }
+
+  const handleSelectPlace = (place: HouseData) => {
+    navigation.navigate("SingleRealEstateScreen", place);
+  };
 
   return (
     <View style={styles.container}>
@@ -85,6 +100,21 @@ export default function MapScreen({
               }}
             />
           )}
+
+          {placesMock.map((place) => (
+            <Marker
+              image={buildingMarker}
+              key={place.id}
+              pinColor="#4c41de"
+              coordinate={place.coordinates}
+            >
+              <Callout tooltip onPress={() => handleSelectPlace(place)}>
+                <View style={{ width: 320, padding: 10 }}>
+                  <HouseCard houseData={place} />
+                </View>
+              </Callout>
+            </Marker>
+          ))}
         </>
       </MapView>
     </View>

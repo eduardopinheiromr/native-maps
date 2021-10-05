@@ -17,10 +17,10 @@ import { ColorSchemeName, Pressable } from "react-native";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import ModalScreen from "../screens/ModalScreen";
-import NotFoundScreen from "../screens/NotFoundScreen";
 import MapScreen from "../screens/MapScreen";
 import SearchScreen from "../screens/SearchScreen";
 import MyVisitsScreen from "../screens/MyVisitsScreen";
+import SingleRealEstateScreen from "../screens/SingleRealEstateScreen";
 import {
   RootStackParamList,
   RootTabParamList,
@@ -61,6 +61,11 @@ function RootNavigator() {
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SingleRealEstateScreen"
+        component={SingleRealEstateScreen}
         options={{ headerShown: false }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>

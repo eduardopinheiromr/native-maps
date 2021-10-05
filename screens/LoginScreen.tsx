@@ -16,7 +16,7 @@ export default function LoginScreen({
     setTimeout(() => {
       setLoading(false);
       navigation.navigate("Root");
-    }, 3000);
+    }, 1000);
   };
   return (
     <View style={styles.container}>
