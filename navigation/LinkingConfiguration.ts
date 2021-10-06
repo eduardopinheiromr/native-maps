@@ -15,11 +15,7 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       Root: {
         screens: {
-          MapScreen: {
-            screens: {
-              MapScreen: "map",
-            },
-          },
+          MapScreen: "map",
           SearchScreen: {
             screens: {
               SearchScreen: "search",

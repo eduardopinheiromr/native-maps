@@ -101,6 +101,7 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="MapScreen"
         component={MapScreen}
+        initialParams={{ brokerComming: false }}
         options={({ navigation }: RootTabScreenProps<"MapScreen">) => ({
           title: "Mapa",
           tabBarIcon: ({ color }) => <TabBarIcon name="map" color={color} />,

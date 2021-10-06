@@ -24,6 +24,10 @@ export type HouseData = {
   image: string;
 };
 
+export type MapScreenProps = {
+  brokerComming: boolean;
+};
+
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   LoginScreen: undefined;
@@ -36,7 +40,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
   NativeStackScreenProps<RootStackParamList, Screen>;
 
 export type RootTabParamList = {
-  MapScreen: undefined;
+  MapScreen: MapScreenProps;
   SearchScreen: undefined;
   MyVisitsScreen: undefined;
 };

@@ -3,7 +3,7 @@ import * as Location from "expo-location";
 
 import MapView, { Callout, Marker, Polyline } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
 import { HouseData, RootTabScreenProps } from "../types";
 import { LocationObject } from "expo-location";
 import { placesMock } from "../mocks/places";
@@ -11,14 +11,22 @@ import { placesMock } from "../mocks/places";
 import buildingMarker from "../assets/icons/building.png";
 import { hasMoreThanOne } from "../utils/hasMoreThanOne";
 import HouseCard from "../components/HouseCard";
+import { Button, Paragraph } from "react-native-paper";
 
 export default function MapScreen({
   navigation,
+  route,
 }: RootTabScreenProps<"MapScreen">) {
   const [location, setLocation] = useState<LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [travelConfirmated, setTravelConfirmated] = useState(false);
   const [brokerLocation, setBrokerLocation] = useState(false);
+
+  const [brokerIsComming, setBrokerIsComming] = useState(false);
+
+  useEffect(() => {
+    setBrokerIsComming(route.params.brokerComming);
+  }, [route.params.brokerComming, setBrokerIsComming]);
 
   useEffect(() => {
     (async () => {
@@ -117,6 +125,35 @@ export default function MapScreen({
           ))}
         </>
       </MapView>
+      {brokerIsComming && (
+        <View style={styles.brokerComing}>
+          <Paragraph>O corretor está a caminho</Paragraph>
+          <View style={styles.brokerProfile}>
+            <Image
+              style={styles.brokerAvatar}
+              source={{ uri: "https://picsum.photos/id/8/300/300" }}
+            />
+            <View style={styles.brokerInfo}>
+              <Paragraph style={{ fontSize: 20, fontWeight: "bold" }}>
+                Fulano da Silva
+              </Paragraph>
+              <Paragraph
+                style={{ fontSize: 16, fontWeight: "bold", color: "darkgray" }}
+              >
+                Corretora: Correria
+              </Paragraph>
+            </View>
+          </View>
+          <View style={styles.userActions}>
+            <Button icon="message" mode="contained">
+              Enviar mensagem
+            </Button>
+            <Button icon="phone" mode="contained">
+              Ligar
+            </Button>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -131,5 +168,35 @@ const styles = StyleSheet.create({
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
+  },
+  brokerComing: {
+    position: "absolute",
+    width: Dimensions.get("window").width - 30,
+    height: 200,
+    backgroundColor: "#fff",
+    bottom: 15,
+    padding: 20,
+    borderRadius: 8,
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  userActions: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  brokerProfile: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  brokerInfo: {
+    marginLeft: 20,
+    height: "100%",
+  },
+  brokerAvatar: {
+    height: 75,
+    width: 75,
+    borderRadius: 100,
   },
 });
