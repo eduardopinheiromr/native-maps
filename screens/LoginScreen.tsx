@@ -1,9 +1,10 @@
+import { FontAwesome } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 
-import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
+import { connect } from "../socket/events";
 import { RootStackScreenProps } from "../types";
 
 export default function LoginScreen({
@@ -20,6 +21,12 @@ export default function LoginScreen({
   };
   return (
     <View style={styles.container}>
+      <FontAwesome
+        name="building"
+        size={70}
+        style={{ marginBottom: 50, marginTop: 100 }}
+        color="#0e1796"
+      />
       <Text style={styles.title}>Faça login para continuar</Text>
       <TextInput
         style={styles.input}
@@ -42,6 +49,14 @@ export default function LoginScreen({
       >
         Entrar
       </Button>
+      <Button
+        style={styles.button}
+        icon="account-plus"
+        mode="outlined"
+        disabled={loading}
+      >
+        Cadastrar
+      </Button>
     </View>
   );
 }
@@ -50,7 +65,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   input: {
     marginTop: 10,

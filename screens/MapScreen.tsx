@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import * as Location from "expo-location";
 
-import MapView, { Callout, Marker, Polyline } from "react-native-maps";
+import MapView, {
+  Callout,
+  MapViewProps,
+  Marker,
+  Polyline,
+} from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
 import { HouseData, RootTabScreenProps } from "../types";
@@ -9,20 +14,52 @@ import { LocationObject } from "expo-location";
 import { placesMock } from "../mocks/places";
 
 import buildingMarker from "../assets/icons/building.png";
-import { hasMoreThanOne } from "../utils/hasMoreThanOne";
 import HouseCard from "../components/HouseCard";
 import { Button, Paragraph } from "react-native-paper";
+import { socket, updateSocketLocation } from "../socket/events";
+
+type UserLogged = {
+  id: string;
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+};
 
 export default function MapScreen({
   navigation,
   route,
 }: RootTabScreenProps<"MapScreen">) {
   const [location, setLocation] = useState<LocationObject | null>(null);
+  const [userId, setUserId] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [travelConfirmated, setTravelConfirmated] = useState(false);
   const [brokerLocation, setBrokerLocation] = useState(false);
+  const [usersLoggedLocation, setUsersLoggedLocation] = useState<UserLogged[]>(
+    []
+  );
 
   const [brokerIsComming, setBrokerIsComming] = useState(false);
+
+  useEffect(() => {
+    if (location) updateSocketLocation(location);
+  }, [location]);
+
+  useEffect(() => {
+    socket.on("user_logged", (id) => {
+      console.log({ id });
+      setUserId(id);
+    });
+  });
+
+  useEffect(() => {
+    socket.on("user_updated_location", (data) => {
+      if (data.id !== userId) {
+        console.log("Is not the current user");
+        setUsersLoggedLocation([...usersLoggedLocation, data]);
+      }
+    });
+  });
 
   useEffect(() => {
     setBrokerIsComming(route.params.brokerComming);
@@ -39,13 +76,13 @@ export default function MapScreen({
       await Location.watchPositionAsync(
         {
           accuracy: Location.Accuracy.BestForNavigation,
-          timeInterval: 3000,
+          timeInterval: 10000,
           distanceInterval: 1,
         },
         (loc) => setLocation(loc)
       );
     })();
-  }, []);
+  });
 
   let text = "Waiting..";
   if (errorMsg) {
@@ -62,7 +99,9 @@ export default function MapScreen({
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        initialCamera={
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        camera={
           location
             ? {
                 center: {
@@ -76,6 +115,16 @@ export default function MapScreen({
               }
             : undefined
         }
+        initialCamera={{
+          center: {
+            latitude: -23.6821604,
+            longitude: -46.8754824,
+          },
+          altitude: 1,
+          pitch: 1,
+          heading: 1,
+          zoom: 10,
+        }}
       >
         <>
           {travelConfirmated && (
@@ -123,6 +172,18 @@ export default function MapScreen({
               </Callout>
             </Marker>
           ))}
+
+          {usersLoggedLocation.map((user, key) => (
+            <Marker
+              key={key}
+              pinColor="#de4141"
+              title={user.id}
+              coordinate={{
+                latitude: user.coordinates.latitude,
+                longitude: user.coordinates.longitude,
+              }}
+            />
+          ))}
         </>
       </MapView>
       {brokerIsComming && (
@@ -165,9 +226,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  myLocationIcon: {
+    // position: "absolute",
+    // right: 0,
+    // top: 50,
+    height: 50,
+    width: 50,
+  },
   map: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: Dimensions.get("window").height - 90,
   },
   brokerComing: {
     position: "absolute",
